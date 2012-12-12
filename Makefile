@@ -1,6 +1,7 @@
 BARTLBY_BASE=../bartlby-core/
 include ${BARTLBY_BASE}/Makefile.conf
 
+NAGIOSPERFDATA = ${BARTLBY_BASE}/src/global.o  ${BARTLBY_BASE}/src/config.o nagiosperfdata.o
 HELLOWORLD = ${BARTLBY_BASE}/src/global.o  ${BARTLBY_BASE}/src/config.o helloworld.o
 WATCHDOG = ${BARTLBY_BASE}/src/global.o  ${BARTLBY_BASE}/src/config.o watchdog.o
 
@@ -18,7 +19,10 @@ DISTRIBUTIVE = ${BARTLBY_BASE}/src/shm.o ${BARTLBY_BASE}/src/global.o  ${BARTLBY
 	$(CC) $(INCLUDE_MYSQL) $(EXTRAOPTIONS) $(INCLUDE_LL) -I${BARTLBY_BASE}/include -c $<
 
 
-all:   helloworld nagios_nsc extlogger distributive watchdog
+all:   helloworld nagios_nsc extlogger distributive watchdog nagiosperfdata
+
+nagiosperfdata: ${NAGIOSPERFDATA}
+	$(LNK)   $(DYNLINK)  $(EXTRAOPTIONS) $(INCLUDE_LL) -o nagiosperfdata.so ${NAGIOSPERFDATA}
 
 helloworld: ${HELLOWORLD}
 	$(LNK)   $(DYNLINK)  $(EXTRAOPTIONS) $(INCLUDE_LL) -o helloworld.so ${HELLOWORLD}
@@ -44,6 +48,7 @@ install: all
 	
 	
 	$(CPPVA) -m 777 watchdog.so ${BARTLBY_HOME}/ext/watchdog.so
+	$(CPPVA) -m 777 nagiosperfdata.so ${BARTLBY_HOME}/ext/nagiosperfdata.so
 	$(CPPVA) -m 777 README_WATCHDOG.txt ${BARTLBY_HOME}/ext/
 
 
