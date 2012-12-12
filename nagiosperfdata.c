@@ -34,7 +34,7 @@ int nagiosperfdata_service_post_check(struct service * svc) {
 			
 			
 				if(fp != NULL) {
-					fprintf(fp, "DATATYPE::SERVICEPERFDATA\tTIMET::%d\tHOSTNAME::%ld%s\tSERVICEDESC::%ld%s\tSERVICEPERFDATA::%s\tSERVICECHECKCOMMAND::%s\tHOSTSTATE::UP\tHOSTSTATETYPE::HARD\tSERVICESTATE::%s\tSERVICESTATETYPE::HARD\n",
+					fprintf(fp, "DATATYPE::SERVICEPERFDATA\tTIMET::%d\tHOSTNAME::%ld-%s\tSERVICEDESC::%ld-%s\tSERVICEPERFDATA::%s\tSERVICECHECKCOMMAND::%s\tHOSTSTATE::UP\tHOSTSTATETYPE::HARD\tSERVICESTATE::%s\tSERVICESTATETYPE::HARD\n",
 					cur_time, svc->srv->server_id, svc->srv->server_name, svc->service_id, svc->service_name,token, svc->plugin, "OK");				
 				
 					fclose(fp);	
