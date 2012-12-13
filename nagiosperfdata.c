@@ -14,13 +14,26 @@ static void * gDataLoaderHandle;
 static char * gCFG;
 
 
+static char * cfg_perflog_file;
+static char * cfg_output_format;
+
+
 int nagiosperfdata_service_post_check(struct service * svc) {
 	//_log("nagiosperfdata: POST check: %s/%s",svc->srv->server_name, svc->service_name);
 	FILE * fp;
 	int cur_time;
 	char * the_perf_data;
 	char * token;
+	int perflog_mem;
+	char * perflog_msg;
+	
 	token=NULL;
+	
+	
+	if(cfg_perflog_file == NULL || cfg_perflog_file == NULL) {
+			return EXTENSION_OK;
+	}
+	
 	the_perf_data = strdup(svc->new_server_text);
 	
 	if(strstr(the_perf_data, "|") != NULL) {
@@ -29,15 +42,23 @@ int nagiosperfdata_service_post_check(struct service * svc) {
 		if(token != NULL) {
 			token = strtok(NULL, "|");
 			if(token != NULL) {
-				fp = fopen("/opt/pnp4nagios/var/perfdata.log", "a");
+				fp = fopen(cfg_perflog_file, "a");
 				cur_time=time(NULL);
 			
 			
 				if(fp != NULL) {
-					fprintf(fp, "DATATYPE::SERVICEPERFDATA\tTIMET::%d\tHOSTNAME::%ld-%s\tSERVICEDESC::%ld-%s\tSERVICEPERFDATA::%s\tSERVICECHECKCOMMAND::%s\tHOSTSTATE::UP\tHOSTSTATETYPE::HARD\tSERVICESTATE::%s\tSERVICESTATETYPE::HARD\n",
-					cur_time, svc->srv->server_id, svc->srv->server_name, svc->service_id, svc->service_name,token, svc->plugin, "OK");				
-				
+					
+					perflog_mem=(strlen(cfg_output_format)+40+strlen(svc->service_name)+strlen(PROGNAME)+strlen(VERSION)+strlen(svc->srv->server_name)+strlen(svc->service_name)+40+strlen(svc->new_server_text));
+					perflog_msg=malloc(sizeof(char)*perflog_mem);
+					sprintf(perflog_msg, "%s\n", cfg_output_format);
+	
+					bartlby_replace_svc_in_str(perflog_msg, svc, perflog_mem);
+		
+					fprintf(fp, perflog_msg ,	cur_time,token);				
 					fclose(fp);	
+					
+					free(perflog_msg);
+					
 				}
 			}
 		}
@@ -74,6 +95,14 @@ int bartlby_extension_startup(void * shm_addr, void * dataLoaderHandle, char * c
 	gHdr=shm_addr;
 	gDataLoaderHandle=dataLoaderHandle;
 	gCFG=configfile;
+	
+	cfg_perflog_file = getConfigValue("nagiosperfdata_logfile", configfile);
+	cfg_output_format = getConfigValue("nagiosperfdata_format", configfile);
+	                    
+	if(cfg_perflog_file == NULL || cfg_perflog_file == NULL) {
+			_log("nagiosperfdata you have to set 'nagiosperfdata_logfile' and 'nagiosperfdata_format'");
+	}	                    
+	                     
 	return EXTENSION_OK;
 }
 int bartlby_extension_shutdown(int scheduler_end_code) {
