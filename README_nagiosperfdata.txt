@@ -1,6 +1,8 @@
 this emulates nagios performance data 
 
 
+there has to be one %d placeholder -> wich gets subsituted with the current unix timestamp 
+and one %s - where the actual perfdata gets inserted
 
 gives follwing config variables
 
