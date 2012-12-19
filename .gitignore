@@ -1,6 +1,6 @@
 config.h
 config.h.in*
-
+*.a
 install-sh
 configure
 stamp-h1
