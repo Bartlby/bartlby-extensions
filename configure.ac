@@ -1,0 +1,9 @@
+AC_INIT([bartlby-extensions], [1.4.0], [helmut@januschka.com], [bartlby-extensions], [http://bartlby.org/])
+AC_PREREQ([2.59])
+AM_INIT_AUTOMAKE([1.10 no-define])
+AC_CONFIG_HEADERS([config.h])
+AC_PROG_CXX
+AC_PROG_LIBTOOL
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT
