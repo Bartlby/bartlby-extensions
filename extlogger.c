@@ -22,9 +22,34 @@ static char * cDB;
 static MYSQL *mysql;
 static int db_connected;
 	
+	
+
 
 #define EXTLOGGER_UPDATE "update log set endtime=UNIX_TIMESTAMP(), endmsg='%s', endstate=%d where service_id=%ld and endtime=0"
 #define EXTLOGGER_INSERT "insert into log (starttime, service_id, startmsg, startstate) values(UNIX_TIMESTAMP(), %ld, '%s', %d)"
+
+#define AUTOR "Helmut Januschka \"helmut@januschka.com\" http://bartlby.org"
+#define NAME "ExtLogger"
+#define DLVERSION  "1.0"
+
+char * GetName() {
+	
+	return strdup(NAME);
+}
+long ExpectVersion() {
+	return EXPECTCORE;	
+}	
+char * GetAutor() {
+	
+	return strdup(AUTOR);
+}
+char * GetVersion() {
+	char * vers;
+	asprintf(&vers, "%s", DLVERSION);
+	return vers;
+}
+
+
 
 static void extlogger_mysql_connect(void) {
 	

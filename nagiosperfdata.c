@@ -7,7 +7,10 @@
 #include <malloc.h>
 #include <bartlby.h>
 
-#define MY_CHECK_TYPE_ID 700
+#define AUTOR "Helmut Januschka \"helmut@januschka.com\" http://bartlby.org"
+#define NAME "Nagios Perf Data Support"
+#define DLVERSION  "1.0"
+
 
 static struct shm_hdr * gHdr;
 static void * gDataLoaderHandle;
@@ -16,6 +19,26 @@ static char * gCFG;
 
 static char * cfg_perflog_file;
 static char * cfg_output_format;
+
+char * GetName() {
+	
+	return strdup(NAME);
+}
+
+char * GetAutor() {
+	
+	return strdup(AUTOR);
+}
+char * GetVersion() {
+	char * vers;
+	asprintf(&vers, "%s", DLVERSION);
+	return vers;
+}
+
+long ExpectVersion() {
+	return EXPECTCORE;	
+}	
+
 
 
 int nagiosperfdata_service_post_check(struct service * svc) {
