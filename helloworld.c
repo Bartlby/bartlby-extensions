@@ -9,9 +9,30 @@
 
 #define MY_CHECK_TYPE_ID 700
 
+#define AUTOR "Helmut Januschka \"helmut@januschka.com\" http://bartlby.org"
+#define NAME "Hello World Module"
+#define DLVERSION  "1.0"
+
 static struct shm_hdr * gHdr;
 static void * gDataLoaderHandle;
 static char * gCFG;
+
+char * GetName() {
+	
+	return strdup(NAME);
+}
+long ExpectVersion() {
+	return EXPECTCORE;	
+}	
+char * GetAutor() {
+	
+	return strdup(AUTOR);
+}
+char * GetVersion() {
+	char * vers;
+	asprintf(&vers, "%s", DLVERSION);
+	return vers;
+}
 
 
 int helloworld_service_pre_check(struct service * svc) {

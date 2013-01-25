@@ -16,9 +16,27 @@ static void * gDataLoaderHandle;
 static char * gCFG;
 static char * distr_command;
 
-
+#define AUTOR "Helmut Januschka \"helmut@januschka.com\" http://bartlby.org"
+#define NAME "Distributive Module"
+#define DLVERSION  "1.0"
 	
 
+char * GetName() {
+	
+	return strdup(NAME);
+}
+long ExpectVersion() {
+	return EXPECTCORE;	
+}	
+char * GetAutor() {
+	
+	return strdup(AUTOR);
+}
+char * GetVersion() {
+	char * vers;
+	asprintf(&vers, "%s", DLVERSION);
+	return vers;
+}
 
 
 
