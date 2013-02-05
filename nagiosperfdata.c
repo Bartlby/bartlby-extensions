@@ -50,6 +50,7 @@ int nagiosperfdata_service_post_check(struct service * svc) {
 	int perflog_mem;
 	char * perflog_msg;
 	
+	int token_len;
 	token=NULL;
 	
 	
@@ -75,6 +76,9 @@ int nagiosperfdata_service_post_check(struct service * svc) {
 					perflog_msg=malloc(sizeof(char)*perflog_mem);
 					sprintf(perflog_msg, "%s\n", cfg_output_format);
 	
+					token_len = strlen(token);
+					if( token[token_len-1] == '\n' ) 	token[token_len-1] = 0;
+						
 					bartlby_replace_svc_in_str(perflog_msg, svc, perflog_mem);
 		
 					fprintf(fp, perflog_msg ,	cur_time,token);				
