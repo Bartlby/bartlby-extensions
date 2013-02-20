@@ -112,7 +112,7 @@ void status_log_v1_output_service(FILE * fp, struct service * svc, int cts, int 
 	ext_nsc_clean_server_text(clean_server_text);
 	
 	hrState=bartlby_beauty_state(cs);
-	fprintf(fp, "[%d] SERVICE;%s;%s;%s;%ld/%ld;HARD;%d;%ld;PASSIVE;%d;0;0;%d;0;%s;0;0;0;0;%d;1;%d;0;100;0;0;10.0;0;0;0;0;%s\n", cts, svc->srv->server_name, svc->service_name, hrState, svc->service_retain_current, svc->service_retain, svc->last_check,svc->last_check+svc->check_interval,svc->service_active, svc->notify_last_time, hrState, svc->notify_last_time, svc->notify_enabled, clean_server_text);
+	//fprintf(fp, "[%d] SERVICE;%s;%s;%s;%ld/%ld;HARD;%d;%ld;PASSIVE;%d;0;0;%d;0;%s;0;0;0;0;%d;1;%d;0;100;0;0;10.0;0;0;0;0;%s\n", cts, svc->srv->server_name, svc->service_name, hrState, svc->service_retain_current, svc->service_retain, svc->last_check,svc->last_check+svc->check_interval,svc->service_active, svc->notify_last_time, hrState, svc->notify_last_time, svc->notify_enabled, clean_server_text);
 	free(hrState);
 	free(clean_server_text);	
 }
