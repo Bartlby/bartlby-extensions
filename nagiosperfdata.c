@@ -8,7 +8,7 @@
 #include <bartlby.h>
 
 #define AUTOR "Helmut Januschka \"helmut@januschka.com\" http://bartlby.org"
-#define NAME "Nagios Perf Data Support"
+#define NAME "Nagios Perf Data supports pnp4nagios"
 #define DLVERSION  "1.0"
 
 
@@ -46,7 +46,7 @@ int nagiosperfdata_service_post_check(struct service * svc) {
 	FILE * fp;
 	int cur_time;
 	char * the_perf_data;
-	char * token;
+	char * token, * token1;
 	int perflog_mem;
 	char * perflog_msg;
 	
@@ -58,14 +58,23 @@ int nagiosperfdata_service_post_check(struct service * svc) {
 			return EXTENSION_OK;
 	}
 	
+	
 	the_perf_data = strdup(svc->new_server_text);
+	
 	
 	if(strstr(the_perf_data, "|") != NULL) {
 	
 		token = strtok(the_perf_data, "|");
+		
 		if(token != NULL) {
 			token = strtok(NULL, "|");
 			if(token != NULL) {
+				if(strstr(token, "\n") != NULL) {
+					//MULTILINE
+					token1=strtok(token, "\n");
+					token=token1;
+									
+				}
 				fp = fopen(cfg_perflog_file, "a");
 				cur_time=time(NULL);
 			
