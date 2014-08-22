@@ -2,17 +2,18 @@ AUTOMAKE_OPTIONS = subdir-objects foreign
 ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS}
 
 AM_CPPFLAGS = -I$(top_srcdir)/../bartlby-core/include
-AM_LDFLAGS =  -avoid-version -module -lssl
+AM_LDFLAGS =  -avoid-version -module -lssl  -avoid-version -module -Wl,--whole-archive,../bartlby-core/libbartlby.a,--no-whole-archive
+
+
 lib_LTLIBRARIES = nagiosperfdata.la extlogger.la distributive.la  helloworld.la nsc.la watchdog.la statehistory.la
 
-nagiosperfdata_la_SOURCES = ../bartlby-core/src/global.c ../bartlby-core/src/config.c nagiosperfdata.c
-extlogger_la_SOURCES = ../bartlby-core/src/global.c ../bartlby-core/src/config.c extlogger.c
-distributive_la_SOURCES = ../bartlby-core/src/global.c ../bartlby-core/src/config.c distributive.c
-helloworld_la_SOURCES = ../bartlby-core/src/global.c ../bartlby-core/src/config.c helloworld.c
-nsc_la_SOURCES = ../bartlby-core/src/global.c ../bartlby-core/src/config.c nsc.c
-watchdog_la_SOURCES = ../bartlby-core/src/global.c ../bartlby-core/src/config.c watchdog.c
-statehistory_la_SOURCES = ../bartlby-core/src/shm.c ../bartlby-core/src/global.c ../bartlby-core/src/config.c statehistory.c
-
+nagiosperfdata_la_SOURCES =  nagiosperfdata.c
+extlogger_la_SOURCES =  extlogger.c
+distributive_la_SOURCES =  distributive.c
+helloworld_la_SOURCES =  helloworld.c
+nsc_la_SOURCES =  nsc.c
+watchdog_la_SOURCES =  watchdog.c
+statehistory_la_SOURCES =  statehistory.c
 
 
 
