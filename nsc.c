@@ -128,7 +128,7 @@ void updateNSCFile() {
 	int cs;
 	
 	if(cfgStatusPath == NULL) {
-		_log("'extensions.nagios.status.log.path' unset ????");
+		_log(LH_MOD, B_LOG_CRIT, "'extensions.nagios.status.log.path' unset ????");
 		return;	
 	}
 	
@@ -140,7 +140,7 @@ void updateNSCFile() {
 	
 	statusFP = fopen(tmpFP, "w");
 	if(!statusFP) {
-		_log("fopen() '%s' failed", cfgStatusPath);
+		_log(LH_MOD, B_LOG_CRIT, "fopen() '%s' failed", cfgStatusPath);
 		return;	
 	}
 	cts=time(NULL);
@@ -207,7 +207,7 @@ int bartlby_extension_startup(void * shm_address, void * dataLoaderHandle, char 
 	char * cfgInterval;
 	char * cfgLogVersion;
 	set_cfg(configfile);
-	_log("Nagios status.log file support for bartlby instance @ %s", configfile);
+	_log(LH_MOD, B_LOG_INFO, "Nagios status.log file support for bartlby instance @ %s", configfile);
 	gSHM=shm_address;
 	gDataLoaderHandle=dataLoaderHandle;
 	gCFG=configfile;
@@ -221,14 +221,14 @@ int bartlby_extension_startup(void * shm_address, void * dataLoaderHandle, char 
 		status_log_version = atoi(cfgLogVersion);
 		free(cfgLogVersion);
 	} else {
-		_log("ext: nsc: 'extensions.nagios.status.log.version' not set defaulting to version 2 format");
+		_log(LH_MOD, B_LOG_INFO, "ext: nsc: 'extensions.nagios.status.log.version' not set defaulting to version 2 format");
 		status_log_version = 2;	
 	}
 	if(cfgInterval) {
 		updateIntervall = atoi(cfgInterval);	
 		free(cfgInterval);
 	} else {
-		_log("ext: nsc 'extensions.nagios.status.log.updatefrequence' not set in config defaulting to 10)");
+		_log(LH_MOD, B_LOG_INFO, "ext: nsc 'extensions.nagios.status.log.updatefrequence' not set in config defaulting to 10)");
 		updateIntervall = 10;
 	}
 	
@@ -236,7 +236,7 @@ int bartlby_extension_startup(void * shm_address, void * dataLoaderHandle, char 
 	return EXTENSION_OK;
 }
 int bartlby_extension_shutdown(int scheduler_end_code) {
-	_log("nagios nsc: scheduler ended with %d", scheduler_end_code);
+	_log(LH_MOD, B_LOG_INFO, "nagios nsc: scheduler ended with %d", scheduler_end_code);
 	if(cfgStatusPath != NULL) {
 		free(cfgStatusPath);	
 	}

@@ -127,7 +127,7 @@ int bartlby_extension_dispatcher(int type, void * data) {
 
 
 int bartlby_extension_startup(void * shm_addr, void * dataLoaderHandle, char * configfile) {
-	_log("nagiosperfdata: %s", configfile);
+	_log(LH_MOD, B_LOG_INFO, "nagiosperfdata: %s", configfile);
 	gHdr=shm_addr;
 	gDataLoaderHandle=dataLoaderHandle;
 	gCFG=configfile;
@@ -136,13 +136,16 @@ int bartlby_extension_startup(void * shm_addr, void * dataLoaderHandle, char * c
 	cfg_output_format = getConfigValue("nagiosperfdata_format", configfile);
 	                    
 	if(cfg_perflog_file == NULL || cfg_perflog_file == NULL) {
-			_log("nagiosperfdata you have to set 'nagiosperfdata_logfile' and 'nagiosperfdata_format'");
+			_log(LH_MOD, B_LOG_CRIT, "nagiosperfdata you have to set 'nagiosperfdata_logfile' and 'nagiosperfdata_format'");
 	}	                    
 	                     
 	return EXTENSION_OK;
 }
 int bartlby_extension_shutdown(int scheduler_end_code) {
-	_log("nagiosperfdata: scheduler ended with %d", scheduler_end_code);
+	_log(LH_MOD, B_LOG_INFO, "nagiosperfdata: scheduler ended with %d", scheduler_end_code);
+
+	if(cfg_perflog_file != NULL) free(cfg_perflog_file);
+	if(cfg_output_format != NULL) free(cfg_output_format);
 	
 	return EXTENSION_OK;
 }

@@ -36,7 +36,7 @@ int bartlby_extension_dispatcher(int type, void * data) {
 
 
 int bartlby_extension_startup(void * shm_addr, void * dataLoaderHandle, char * configfile) {
-	_log("watchdog: %s", configfile);
+	_log(LH_MOD, B_LOG_INFO, "watchdog: %s", configfile);
 	gHdr=shm_addr;
 	gDataLoaderHandle=dataLoaderHandle;
 	gCFG=configfile;
@@ -44,12 +44,12 @@ int bartlby_extension_startup(void * shm_addr, void * dataLoaderHandle, char * c
 	
 	bartlby_watchdog_fd = open("/dev/watchdog",O_WRONLY);
 	if(bartlby_watchdog_fd  == -1) {
-		_log("watchdog: /dev/watchdog is not available..unloading module");
+		_log(LH_MOD, B_LOG_INFO, "watchdog: /dev/watchdog is not available..unloading module");
 		return EXTENSION_NOK;
 	}
-	_log("watchdog: card initializing");
+	_log(LH_MOD, B_LOG_INFO, "watchdog: card initializing");
 	ioctl(bartlby_watchdog_fd, WDIOC_SETOPTIONS, WDIOS_ENABLECARD);
-	_log("watchdog: card initialized");
+	_log(LH_MOD, B_LOG_INFO, "watchdog: card initialized");
 	return EXTENSION_OK;
 	
 	
@@ -58,8 +58,8 @@ int bartlby_extension_startup(void * shm_addr, void * dataLoaderHandle, char * c
 }
 int bartlby_extension_shutdown(int scheduler_end_code) {
 	ioctl(bartlby_watchdog_fd, WDIOC_SETOPTIONS, WDIOS_DISABLECARD);
-	_log("watchdog: disabled");
-	_log("watchdog: scheduler ended with %d", scheduler_end_code);
+	_log(LH_MOD, B_LOG_INFO, "watchdog: disabled");
+	_log(LH_MOD, B_LOG_INFO, "watchdog: scheduler ended with %d", scheduler_end_code);
 		
 	return EXTENSION_OK;
 }
