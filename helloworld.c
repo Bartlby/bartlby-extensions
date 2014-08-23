@@ -129,7 +129,7 @@ int bartlby_extension_dispatcher(int type, void * data) {
 		break;
 		
 		default:
-			_log("helloworld unkown message:%d", type);
+			_log(LH_MOD, B_LOG_DEBUG, "helloworld unkown message:%d", type);
 			//Be gentle if we do not know what to do
 			//do as all is OK to not block bartlby
 			return EXTENSION_OK;
@@ -142,14 +142,14 @@ int bartlby_extension_dispatcher(int type, void * data) {
 
 
 int bartlby_extension_startup(void * shm_addr, void * dataLoaderHandle, char * configfile) {
-	_log("helloworld: %s", configfile);
+	_log(LH_MOD, B_LOG_INFO, "helloworld: %s", configfile);
 	gHdr=shm_addr;
 	gDataLoaderHandle=dataLoaderHandle;
 	gCFG=configfile;
 	return EXTENSION_OK;
 }
 int bartlby_extension_shutdown(int scheduler_end_code) {
-	_log("helloworld: scheduler ended with %d", scheduler_end_code);
+	_log(LH_MOD, B_LOG_INFO, "helloworld: scheduler ended with %d", scheduler_end_code);
 	
 	return EXTENSION_OK;
 }

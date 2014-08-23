@@ -163,7 +163,7 @@ int bartlby_extension_startup(void * shm_addr, void * dataLoaderHandle, char * c
 	char new_hash_str[40];
 	
 	
-	_log("statehistory: %s", configfile);
+	_log(LH_MOD, B_LOG_INFO, "statehistory: %s", configfile);
 	
 	cfg_statehistory_dir = getConfigValue("statehistory_logdir", configfile);
 	
@@ -175,10 +175,10 @@ int bartlby_extension_startup(void * shm_addr, void * dataLoaderHandle, char * c
 	
 	
 	if(cfg_statehistory_dir == NULL) {
-		_log("statehistory you have to set 'statehistory_logdir'");
+		_log(LH_MOD, B_LOG_CRIT, "statehistory you have to set 'statehistory_logdir'");
 	}
 	
-	_log("statehistory: servicescount->%ld", gHdr->svccount);
+	_log(LH_MOD, B_LOG_INFO, "statehistory: servicescount->%ld", gHdr->svccount);
 	
 	state_hash_map = malloc(sizeof(struct service_hash_map)*(gHdr->svccount+1));
 	
@@ -195,8 +195,9 @@ int bartlby_extension_startup(void * shm_addr, void * dataLoaderHandle, char * c
 	return EXTENSION_OK;
 }
 int bartlby_extension_shutdown(int scheduler_end_code) {
-	_log("statehistory: scheduler ended with %d", scheduler_end_code);
+	_log(LH_MOD, B_LOG_INFO, "statehistory: scheduler ended with %d", scheduler_end_code);
 	int x;
 	free(state_hash_map);
+	if(cfg_statehistory_dir != NULL) free(cfg_statehistory_dir);
 	return EXTENSION_OK;
 }

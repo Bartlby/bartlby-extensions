@@ -58,12 +58,12 @@ static int distributive_service_state_changed(struct service * svc) {
 		fp = popen(dcmd, "r");
 		if(fp) {
 			if(fgets(dist_out, 1024, fp) != NULL) {
-				_log("distributive: %s", dist_out);	
+				_log(LH_MOD, B_LOG_INFO, "distributive: %s", dist_out);	
 			}
 			pclose(fp);
 						
 		} else {
-			_log("distributive: %s", strerror(errno));	
+			_log(LH_MOD, B_LOG_CRIT, "distributive: %s", strerror(errno));	
 		}
 		
 		free(dcmd);
@@ -100,13 +100,13 @@ int bartlby_extension_dispatcher(int type, void * data) {
 
 
 int bartlby_extension_startup(void * shm_addr, void * dataLoaderHandle, char * configfile) {
-	_log("distributive: %s", configfile);
+	_log(LH_MOD, B_LOG_INFO, "distributive: %s", configfile);
 	
 	distr_command  = getConfigValue("distributive_command", configfile);
 	
 	
 	if(distr_command == NULL) {
-		_log("distributive: configuration failed 'distributive_command'");
+		_log(LH_MOD, B_LOG_CRIT, "distributive: configuration failed 'distributive_command'");
 	}
 	
 	
@@ -114,12 +114,12 @@ int bartlby_extension_startup(void * shm_addr, void * dataLoaderHandle, char * c
 	gHdr=bartlby_SHM_GetHDR(shm_addr);
 	gDataLoaderHandle=dataLoaderHandle;
 	gCFG=configfile;
-	_log("distributive initiated");
+	_log(LH_MOD, B_LOG_INFO, "distributive initiated");
 	
 	return EXTENSION_OK;
 }
 int bartlby_extension_shutdown(int scheduler_end_code) {
-	_log("distributive: scheduler ended with %d", scheduler_end_code);
+	_log(LH_MOD, B_LOG_INFO, "distributive: scheduler ended with %d", scheduler_end_code);
 	
 	return EXTENSION_OK;
 }

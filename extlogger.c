@@ -59,11 +59,11 @@ static void extlogger_mysql_connect(void) {
 	mysql=mysql_real_connect(mysql, cHost, cUser, cPassword, NULL, 0, NULL, 0);
 		if(mysql_errno(mysql) != 0) {
 			db_connected=0;
-			_log("extlogger: mysql error: %s", mysql_error(mysql));
+			_log(LH_MOD, B_LOG_CRIT, "extlogger: mysql error: %s", mysql_error(mysql));
 		} else {
 			mysql_select_db(mysql, cDB);
 			if(mysql_errno(mysql) != 0) {
-				_log("extlogger: mysql error: %s", mysql_error(mysql));
+				_log(LH_MOD, B_LOG_CRIT, "extlogger: mysql error: %s", mysql_error(mysql));
 				db_connected=0;
 			} else {
 				db_connected=1;	
@@ -93,7 +93,7 @@ static int extlogger_service_state_changed(struct service * svc) {
 	extlogger_mysql_connect();
 		
 	if(db_connected == 0) {
-		_log("extlogger: problem with database doin a reload");	
+		_log(LH_MOD, B_LOG_CRIT, "extlogger: problem with database doin a reload");	
 		gHdr->do_reload=1;
 		
 	} else {
@@ -101,12 +101,12 @@ static int extlogger_service_state_changed(struct service * svc) {
 		mysql_query(mysql, sqlu);
 		if(mysql_errno(mysql) != 0) {
 			
-			_log("extlogger: mysql error: %s", mysql_error(mysql));
+			_log(LH_MOD, B_LOG_CRIT, "extlogger: mysql error: %s", mysql_error(mysql));
 		}
 		mysql_query(mysql, sqli);
 		if(mysql_errno(mysql) != 0) {
 			
-			_log("extlogger: mysql error: %s", mysql_error(mysql));
+			_log(LH_MOD, B_LOG_CRIT, "extlogger: mysql error: %s", mysql_error(mysql));
 		}
 	}
 	mysql_close(mysql);
@@ -143,7 +143,7 @@ int bartlby_extension_dispatcher(int type, void * data) {
 
 
 int bartlby_extension_startup(void * shm_addr, void * dataLoaderHandle, char * configfile) {
-	_log("extlogger: %s", configfile);
+	_log(LH_MOD, B_LOG_INFO, "extlogger: %s", configfile);
 	/*
 	extlogger_type=
 	extlogger_host=
@@ -158,7 +158,7 @@ int bartlby_extension_startup(void * shm_addr, void * dataLoaderHandle, char * c
 	cDB = getConfigValue("extlogger_db", configfile);
 	
 	if(cType == NULL || cHost == NULL || cUser  == NULL || cPassword == NULL || cDB == NULL) {
-		_log("extlogger: configuration failed 'extlogger_type', 'extlogger_host', 'extlogger_user', 'extlogger_password', 'extlogger_db'");
+		_log(LH_MOD, B_LOG_CRIT, "extlogger: configuration failed 'extlogger_type', 'extlogger_host', 'extlogger_user', 'extlogger_password', 'extlogger_db'");
 	}
 	
 	
@@ -166,12 +166,12 @@ int bartlby_extension_startup(void * shm_addr, void * dataLoaderHandle, char * c
 	gHdr=bartlby_SHM_GetHDR(shm_addr);
 	gDataLoaderHandle=dataLoaderHandle;
 	gCFG=configfile;
-	_log("Extlogger initiated");
+	_log(LH_MOD, B_LOG_INFO, "Extlogger initiated");
 	
 	return EXTENSION_OK;
 }
 int bartlby_extension_shutdown(int scheduler_end_code) {
-	_log("extlogger: scheduler ended with %d", scheduler_end_code);
+	_log(LH_MOD, B_LOG_INFO, "extlogger: scheduler ended with %d", scheduler_end_code);
 	
 	
 	return EXTENSION_OK;
