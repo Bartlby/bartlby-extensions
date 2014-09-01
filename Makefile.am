@@ -1,7 +1,7 @@
 AUTOMAKE_OPTIONS = subdir-objects foreign
 ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS}
 
-AM_CPPFLAGS = -I$(top_srcdir)/../bartlby-core/include
+AM_CPPFLAGS = -I$(top_srcdir)/../bartlby-core/include -I/usr/include/json
 AM_LDFLAGS =  -avoid-version -module -lssl  -avoid-version -module -Wl,--whole-archive,../bartlby-core/libbartlby.a,--no-whole-archive -g
 
 
