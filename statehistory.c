@@ -65,6 +65,8 @@ int statehistory_find_shm_place_for_id(long service_id) {
 }
 void convertSHA1BinaryToCharStr(const unsigned char * const hashbin, char * const hashstr) {
   int i;
+  
+  
   for(i = 0; i<5; ++i)
   {
     sprintf(&hashstr[i*2], "%02x", hashbin[i]);
@@ -84,6 +86,7 @@ int statehistory_check_will_run(struct service * svc) {
 	time_t tnow;
 	struct tm *tmnow;
 	
+	json_object * jso;
 
 	
 	
@@ -116,7 +119,15 @@ int statehistory_check_will_run(struct service * svc) {
 			
 			asprintf(&file_path, "%s/%ld-%02d.%02d.%02d.history", cfg_statehistory_dir, svc->service_id, tmnow->tm_year + 1900,tmnow->tm_mon + 1,tmnow->tm_mday);
 			fp = fopen(file_path, "a");
-			fprintf(fp,"%d;%d;%s\n", svc->current_state, state_hash_map[x].last_write, svc->new_server_text);
+
+			jso = json_object_new_object();
+			json_object_object_add(jso,"current_state", json_object_new_int(svc->current_state));
+			json_object_object_add(jso,"last_write", json_object_new_int(state_hash_map[x].last_write));
+			json_object_object_add(jso,"output", json_object_new_string(svc->new_server_text));
+
+			fprintf(fp,"%s\n#############REC##############\n", json_object_to_json_string(jso));
+
+			json_object_put(jso);
 			fclose(fp);
 			free(file_path);
 			
