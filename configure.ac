@@ -1,4 +1,4 @@
-AC_INIT([bartlby-extensions], [1.4.0], [helmut@januschka.com],1.5.0, [http://bartlby.org/])
+AC_INIT([bartlby-extensions], [1.4.0], [helmut@januschka.com],1.6.0, [http://bartlby.org/])
 AC_PREREQ([2.59])
 AM_INIT_AUTOMAKE([1.10 no-define])
 AC_CONFIG_HEADERS([config.h])
