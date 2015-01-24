@@ -50,7 +50,7 @@ void status_log_v2_output_service(FILE * fp, struct service * svc, int cts, int 
 	char * clean_server_text;
 
 	
-	clean_server_text=strdup(svc->new_server_text);
+	clean_server_text=strdup(svc->current_output);
 	ext_nsc_clean_server_text(clean_server_text);
 	
 	
@@ -108,7 +108,7 @@ void status_log_v1_output_service(FILE * fp, struct service * svc, int cts, int 
 	char * clean_server_text;
 
 	
-	clean_server_text=strdup(svc->new_server_text);
+	clean_server_text=strdup(svc->current_output);
 	ext_nsc_clean_server_text(clean_server_text);
 	
 	hrState=bartlby_beauty_state(cs);

@@ -53,7 +53,7 @@ static int distributive_service_state_changed(struct service * svc) {
 		
 		dcmd = malloc(sizeof(char) * (strlen(distr_command)+5300));
 		
-		snprintf(dcmd, 5299, "%s %ld %ld '%s' '%s' %d '%s'", distr_command, svc->server_id, svc->service_id, svc->srv->server_name, svc->service_name, svc->current_state, svc->new_server_text);
+		snprintf(dcmd, 5299, "%s %ld %ld '%s' '%s' %d '%s'", distr_command, svc->server_id, svc->service_id, svc->srv->server_name, svc->service_name, svc->current_state, svc->current_output);
 		
 		fp = popen(dcmd, "r");
 		if(fp) {

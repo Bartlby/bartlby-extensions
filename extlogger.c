@@ -84,11 +84,11 @@ static int extlogger_service_state_changed(struct service * svc) {
 	//_log("extlogger: STATE changed: %s:%d/%s", svc->server_name, svc->client_port, svc->service_name);
 	
 	
-	sqlu = malloc(sizeof(char)*(strlen(EXTLOGGER_UPDATE)+strlen(svc->new_server_text)+20));
-	sqli = malloc(sizeof(char)*(strlen(EXTLOGGER_INSERT)+strlen(svc->new_server_text)+20));
+	sqlu = malloc(sizeof(char)*(strlen(EXTLOGGER_UPDATE)+strlen(svc->current_output)+20));
+	sqli = malloc(sizeof(char)*(strlen(EXTLOGGER_INSERT)+strlen(svc->current_output)+20));
 	
-	sprintf(sqlu, EXTLOGGER_UPDATE, svc->new_server_text, svc->current_state, svc->service_id);
-	sprintf(sqli, EXTLOGGER_INSERT, svc->service_id, svc->new_server_text,svc->current_state);
+	sprintf(sqlu, EXTLOGGER_UPDATE, svc->current_output, svc->current_state, svc->service_id);
+	sprintf(sqli, EXTLOGGER_INSERT, svc->service_id, svc->current_output,svc->current_state);
 	
 	extlogger_mysql_connect();
 		

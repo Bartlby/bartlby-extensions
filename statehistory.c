@@ -95,7 +95,7 @@ int statehistory_check_will_run(struct service * svc) {
 		return EXTENSION_OK;
 	}
 	
-	SHA1(svc->new_server_text, strlen(svc->new_server_text), new_hash_bin);
+	SHA1(svc->current_output, strlen(svc->current_output), new_hash_bin);
 	convertSHA1BinaryToCharStr(new_hash_bin, new_hash_str);
 	x=statehistory_find_shm_place_for_id(svc->service_id);
 	current_hash = state_hash_map[x].sha1_hash;
@@ -113,8 +113,8 @@ int statehistory_check_will_run(struct service * svc) {
 			time(&tnow);
 			tmnow = localtime(&tnow);
 			
-			if (svc->new_server_text[strlen(svc->new_server_text) - 1] == '\n') {
-  				svc->new_server_text[strlen(svc->new_server_text) - 1] == '\0';
+			if (svc->current_output[strlen(svc->current_output) - 1] == '\n') {
+  				svc->current_output[strlen(svc->current_output) - 1] == '\0';
 			}
 			
 			asprintf(&file_path, "%s/%ld-%02d.%02d.%02d.history", cfg_statehistory_dir, svc->service_id, tmnow->tm_year + 1900,tmnow->tm_mon + 1,tmnow->tm_mday);
@@ -123,7 +123,7 @@ int statehistory_check_will_run(struct service * svc) {
 			jso = json_object_new_object();
 			json_object_object_add(jso,"current_state", json_object_new_int(svc->current_state));
 			json_object_object_add(jso,"last_write", json_object_new_int(state_hash_map[x].last_write));
-			json_object_object_add(jso,"output", json_object_new_string(svc->new_server_text));
+			json_object_object_add(jso,"output", json_object_new_string(svc->current_output));
 
 			fprintf(fp,"%s\n#############REC##############\n", json_object_to_json_string(jso));
 
@@ -140,7 +140,7 @@ int statehistory_check_will_run(struct service * svc) {
 	
 	
 	
-	//_log("statehistory: id->%ld text:%s", svc->service_id, svc->new_server_text);
+	//_log("statehistory: id->%ld text:%s", svc->service_id, svc->current_output);
 	return EXTENSION_OK;
 }
 
@@ -196,7 +196,7 @@ int bartlby_extension_startup(void * shm_addr, void * dataLoaderHandle, char * c
 	//initial hashing
 	for(x=0; x<gHdr->svccount; x++) {
 				state_hash_map[x].service_id=svcmap[x].service_id;
-				SHA1(svcmap[x].new_server_text, strlen(svcmap[x].new_server_text), new_hash_bin);
+				SHA1(svcmap[x].current_output, strlen(svcmap[x].current_output), new_hash_bin);
 				convertSHA1BinaryToCharStr(new_hash_bin, new_hash_str);				
 				sprintf(state_hash_map[x].sha1_hash, "%s", new_hash_str);
 				state_hash_map[x].last_write = time(NULL);
