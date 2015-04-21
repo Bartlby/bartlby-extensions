@@ -42,7 +42,7 @@ void status_log_v2_out_start(FILE * fp, int cts) {
 	fprintf(fp,"########################################\n\n");
 	fprintf(fp,"info {\n");
 	fprintf(fp,"\tcreated=%d\n",cts);
-	fprintf(fp,"\tversion=%s-%s\n",PROGNAME, VERSION);
+	fprintf(fp,"\tversion=%s-1.1.1\n",PROGNAME);
 	fprintf(fp,"\t}\n\n");
 }
 

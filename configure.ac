@@ -8,8 +8,8 @@ AC_CONFIG_MACRO_DIR([m4])
 AM_SILENT_RULES([yes])
 AC_CONFIG_FILES([Makefile])
 AC_CHECK_FILE(
-   [../bartlby-core/libbartlby.a],
+   [../bartlby-core/build/libbartlby.a],
    [AC_MSG_NOTICE([Found libbartlby.a])],
-   [AC_MSG_ERROR([Cannot find libbartlby.a please checkout bartlby-core in the ../bartlby-core/ folder and compile it so you get a libbartlby.a lib])]
+   [AC_MSG_ERROR([Cannot find libbartlby.a please check that you have a bartlby-core installed should be in e.g: ../bartlby-core/build/libbartlby.a ])]
    )
 AC_OUTPUT

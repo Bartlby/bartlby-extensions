@@ -81,7 +81,7 @@ int nagiosperfdata_service_post_check(struct service * svc) {
 			
 				if(fp != NULL) {
 					
-					perflog_mem=(strlen(cfg_output_format)+40+strlen(svc->service_name)+strlen(PROGNAME)+strlen(VERSION)+strlen(svc->srv->server_name)+strlen(svc->service_name)+40+strlen(svc->current_output));
+					perflog_mem=(strlen(cfg_output_format)+40+strlen(svc->service_name)+strlen(PROGNAME)+20+strlen(svc->srv->server_name)+strlen(svc->service_name)+40+strlen(svc->current_output));
 					perflog_msg=malloc(sizeof(char)*perflog_mem);
 					sprintf(perflog_msg, "%s\n", cfg_output_format);
 	
