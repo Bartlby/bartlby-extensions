@@ -103,7 +103,7 @@ int statehistory_check_will_run(struct service * svc) {
 	x=statehistory_find_shm_place_for_id(svc->service_id);
 	current_hash = state_hash_map[x].sha1_hash;
 	
-	if(strcmp(new_hash_str, current_hash) != 0) {
+	if(strcmp(new_hash_str, current_hash) != 0 || diff >= 60*2) {
 		
 		diff=time(NULL)-state_hash_map[x].last_write;
 		
