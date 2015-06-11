@@ -88,6 +88,9 @@ int statehistory_check_will_run(struct service * svc) {
 	
 	json_object * jso;
 
+	char * log_path_copy;
+	char * log_path_dirname;
+
 	
 	
 	
@@ -117,7 +120,15 @@ int statehistory_check_will_run(struct service * svc) {
   				svc->current_output[strlen(svc->current_output) - 1] == '\0';
 			}
 			
-			asprintf(&file_path, "%s/%ld-%02d.%02d.%02d.history", cfg_statehistory_dir, svc->service_id, tmnow->tm_year + 1900,tmnow->tm_mon + 1,tmnow->tm_mday);
+			asprintf(&file_path, "%s/%02d/%02d/%02d/%ld-%02d-%02d-%02d.history", cfg_statehistory_dir, tmnow->tm_year + 1900,tmnow->tm_mon + 1,tmnow->tm_mday, svc->service_id,tmnow->tm_year + 1900,tmnow->tm_mon + 1,tmnow->tm_mday);
+			log_path_copy=strdup(file_path);
+			log_path_dirname=dirname(log_path_copy);
+
+			mkdir_recursive(log_path_dirname, 0777);
+
+			free(log_path_copy);
+
+
 			fp = fopen(file_path, "a");
 
 			jso = json_object_new_object();
