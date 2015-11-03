@@ -85,6 +85,7 @@ int statehistory_check_will_run(struct service * svc) {
 	
 	time_t tnow;
 	struct tm *tmnow;
+	struct tm tt;
 	
 	json_object * jso;
 
@@ -117,7 +118,7 @@ int statehistory_check_will_run(struct service * svc) {
 			state_hash_map[x].last_write=time(NULL);
 			
 			time(&tnow);
-			tmnow = localtime(&tnow);
+			tmnow = localtime_r(&tnow, &tt);
 			
 			if (svc->current_output[strlen(svc->current_output) - 1] == '\n') {
   				svc->current_output[strlen(svc->current_output) - 1] == '\0';
